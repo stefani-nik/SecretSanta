@@ -10,7 +10,8 @@ namespace SecretSanta.Models
         public User(string username, string displayName) : this()
         {
             this.UserName = username;
-           
+            this.Email = "test.eme";
+
         }
     }
 }

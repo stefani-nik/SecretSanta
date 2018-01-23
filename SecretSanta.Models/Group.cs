@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-
 namespace SecretSanta.Models
 {
     public enum ConnectionsState
@@ -16,13 +15,13 @@ namespace SecretSanta.Models
 
         public string CreatorId { get; set; }
 
-        public int Creator { get; set; }
+        public ApplicationUser Creator { get; set; }
 
-        public virtual ICollection<string> Members { get; set; }
+        public virtual ICollection<ApplicationUser> Members { get; set; }
 
-        public virtual ICollection<string> Invitations { get; set; }
+        public virtual ICollection<Invitation> Invitations { get; set; }
 
-        public virtual IDictionary<string,string> Connections { get; set; }
+        public virtual IDictionary<ApplicationUser,ApplicationUser> Connections { get; set; }
 
         public ConnectionsState State;
 
@@ -31,9 +30,9 @@ namespace SecretSanta.Models
         {
             this.Name = _name;
             this.CreatorId = _creatorId;
-            this.Members = new HashSet<string>();
-            this.Invitations = new HashSet<string>();
-            this.Connections = new Dictionary<string, string>();
+            this.Members = new HashSet<ApplicationUser>();
+            this.Invitations = new HashSet<Invitation>();
+            this.Connections = new Dictionary<ApplicationUser, ApplicationUser>();
             this.State = ConnectionsState.NotConnected;
         }
     }

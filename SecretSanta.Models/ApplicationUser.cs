@@ -10,20 +10,20 @@ namespace SecretSanta.Models
 
         public int ReceivedGifts { get; set; }
 
-        public virtual ICollection<string> CreatedGroups { get; set; }
+        public virtual ICollection<Group> CreatedGroups { get; set; }
 
-        public virtual ICollection<string> JoinedGroups { get; set; }
+        public virtual ICollection<Group> JoinedGroups { get; set; }
 
-        public virtual ICollection<string> PendingInvitations { get; set; }
+        public virtual ICollection<Invitation> PendingInvitations { get; set; }
 
         public ApplicationUser(string _username, string _displayName)
         {
             this.UserName = _username;
             this.DisplayName = _displayName;
 
-            this.CreatedGroups = new HashSet<string>();
-            this.JoinedGroups = new HashSet<string>();
-            this.PendingInvitations = new HashSet<string>();
+            this.CreatedGroups = new HashSet<Group>();
+            this.JoinedGroups = new HashSet<Group>();
+            this.PendingInvitations = new HashSet<Invitation>();
 
             this.ReceivedGifts = 0;
         }

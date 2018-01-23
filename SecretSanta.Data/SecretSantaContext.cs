@@ -16,7 +16,8 @@ namespace SecretSanta.Data
         }
 
          public virtual DbSet<Group> Groups { get; set; }
-         public virtual DbSet<Invitation> Invitations { get; set; }
+        public virtual DbSet<Invitation> Invitations { get; set; }
+        public virtual DbSet<Connection> Connections { get; set; }
 
         public virtual void Commit()
         {

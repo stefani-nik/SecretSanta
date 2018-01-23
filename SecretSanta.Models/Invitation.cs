@@ -16,11 +16,11 @@ namespace SecretSanta.Models
         
         public int GropuId { get; set; }
 
-        public Group Group { get; set; }
+        public virtual Group Group { get; set; }
 
         public string ReceiverId { get; set; }
 
-        public ApplicationUser Receiver { get; set; }
+        public virtual ApplicationUser Receiver { get; set; }
 
         public InvitationState State { get; set; }
 

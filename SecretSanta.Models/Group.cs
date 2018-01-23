@@ -15,13 +15,11 @@ namespace SecretSanta.Models
 
         public string CreatorId { get; set; }
 
-        public ApplicationUser Creator { get; set; }
+        public virtual ApplicationUser Creator { get; set; }
 
         public virtual ICollection<ApplicationUser> Members { get; set; }
 
         public virtual ICollection<Invitation> Invitations { get; set; }
-
-        public virtual IDictionary<ApplicationUser,ApplicationUser> Connections { get; set; }
 
         public ConnectionsState State;
 
@@ -32,7 +30,6 @@ namespace SecretSanta.Models
             this.CreatorId = _creatorId;
             this.Members = new HashSet<ApplicationUser>();
             this.Invitations = new HashSet<Invitation>();
-            this.Connections = new Dictionary<ApplicationUser, ApplicationUser>();
             this.State = ConnectionsState.NotConnected;
         }
     }

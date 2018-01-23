@@ -1,10 +1,11 @@
 namespace SecretSanta.Data
 {
-    using System;
+
     using System.Data.Entity;
     using SecretSanta.Models;
     using Microsoft.AspNet.Identity.EntityFramework;
-    using System.Linq;
+    using SecretSanta.Data.Configuration;
+
 
     public class SecretSantaContext : IdentityDbContext<ApplicationUser>
     {
@@ -31,8 +32,10 @@ namespace SecretSanta.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-           // modelBuilder.Configurations.Add(new UserConfig());
-            
+            modelBuilder.Configurations.Add(new UserConfig());
+            modelBuilder.Configurations.Add(new GroupConfig());
+            modelBuilder.Configurations.Add(new InvitationConfig());
+            modelBuilder.Configurations.Add(new ConnectionsConfig());
 
             base.OnModelCreating(modelBuilder);
         }

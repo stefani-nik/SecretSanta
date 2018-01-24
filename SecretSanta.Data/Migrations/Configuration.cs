@@ -9,5 +9,10 @@ namespace SecretSanta.Data.Migrations
 {
     internal sealed class Configuration : DbMigrationsConfiguration<SecretSanta.Data.SecretSantaContext>
     {
+        public Configuration()
+        {
+            AutomaticMigrationsEnabled = false;
+            ContextKey = "SecretSanta.Data.SecretSantaContext";
+        }
     }
 }

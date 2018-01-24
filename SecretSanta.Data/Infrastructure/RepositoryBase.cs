@@ -1,7 +1,7 @@
 ﻿using SecretSanta.Data;
 using SecretSanta.Data.IInfrastructure;
 
-namespace DeltaDucks.Data.Infrastructure
+namespace SecretSanta.Data.Infrastructure
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +9,7 @@ namespace DeltaDucks.Data.Infrastructure
     using System.Linq;
     using System.Linq.Expressions;
 
-    public abstract class RepositoryBase<T> where T : class
+    public abstract class RepositoryBase<T> : IRepository<T> where T : class
     {
         // Properties
         private SecretSantaContext _dataContext;
@@ -19,6 +19,8 @@ namespace DeltaDucks.Data.Infrastructure
         protected IDbFactory DbFactory { get; }
 
         protected SecretSantaContext DbContext => _dataContext ?? (_dataContext = DbFactory.Init());
+
+        protected RepositoryBase() { }
 
         protected RepositoryBase(IDbFactory dbFactory)
         {

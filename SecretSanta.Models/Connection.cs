@@ -10,7 +10,7 @@
 
         public string GiverId { get; set; }
 
-        public virtual ApplicationUser Sender { get; set; }
+        public virtual ApplicationUser Giver { get; set; }
 
         public string ReceiverId { get; set; }
 

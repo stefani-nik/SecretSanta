@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using SecretSanta.Models;
 
 namespace SecretSanta.Service.IServices
@@ -11,11 +7,11 @@ namespace SecretSanta.Service.IServices
     {
 
         Group GetGroupById(int groupId);
-        IQueryable<Group> GetPageOfGroups(string userId, int take, int skip);
+        IQueryable<Group> GetPageOfGroups(string userId, int page);
         IQueryable<ApplicationUser> GetMembers(int groupId);
 
-        Task<Group> CreateGroupAsync(string groupName, string ownerId);
-        Task RemoveUserFromGroup(int groupId, string userId);
+        void CreateGroup(Group group);
+        void RemoveUserFromGroup(int groupId, string userId);
 
     }
 }

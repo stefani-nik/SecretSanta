@@ -12,31 +12,36 @@ namespace SecretSanta.Data.Repositories
 {
     public class GroupRepository : RepositoryBase<Group>, IGroupRepository
     {
-        private readonly IRepository<Group> repositoryBase;
+        private readonly IRepository<Group> _repositoryBase;
 
-        public GroupRepository(IRepository<Group> _repository)
+        public GroupRepository(IRepository<Group> repositoryBase)
         {
-            if (_repository == null)
+            if (repositoryBase == null)
             {
-                throw new ArgumentException(nameof(_repository));
+                throw new ArgumentException(nameof(repositoryBase));
 
             }
-            this.repositoryBase = _repository;
+            this._repositoryBase = repositoryBase;
         }
 
         public Group GetGroupById(int groupId)
         {
-            return this.repositoryBase.GetById(groupId);
+            return this._repositoryBase.GetById(groupId);
+        }
+
+        public Group GetGroupByName(string name)
+        {
+            return this._repositoryBase.GetAll().FirstOrDefault(g => g.Name == name);
         }
 
         public IQueryable<Group> GetPageOfGroups(string userId,int skip, int take)
         {
-            return this.repositoryBase.GetAll().Where(g => g.CreatorId == userId).Skip(skip).Take(take);
+            return this._repositoryBase.GetAll().Where(g => g.CreatorId == userId).Skip(skip).Take(take);
         }
 
         public IQueryable<ApplicationUser> GetMembers(int groupId)
         {
-            var group = this.repositoryBase.GetById(groupId);
+            var group = this._repositoryBase.GetById(groupId);
             return this.DbContext.Users.Where(u => u.JoinedGroups.Contains(group));
 
         }

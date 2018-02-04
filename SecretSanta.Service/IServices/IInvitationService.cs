@@ -9,10 +9,12 @@ namespace SecretSanta.Service.IServices
 {
     public interface IInvitationService
     {
-        IQueryable<Invitation> GetPageOfPendingInvitations(string userId, int take, int skip, bool sortAsc);
-        Task<Invitation> CreateInvittationAsync(int groupId, string userId);
+        IQueryable<Invitation> GetPageOfPendingInvitations(string userId,int page, bool sortAsc);
+        void CreateInvittation(Invitation invitation);
         bool IsUserInvited(int groupId, string userId);
 
-        Task CancelInvitation(int groupId, string userId);
+        void CancelInvitation(int groupId, string userId);
+
+        //   #TODO: Check if implementation of Accept Invitation is needed
     }
 }

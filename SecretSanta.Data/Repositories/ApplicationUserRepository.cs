@@ -9,26 +9,26 @@ namespace SecretSanta.Data.Repositories
 {
     public class ApplicationUserRepository : RepositoryBase<ApplicationUser>, IApplicationUserRepository
     {
-        private readonly IRepository<ApplicationUser> repositoryBase;
+        private readonly IRepository<ApplicationUser> _repositoryBase;
 
-        public ApplicationUserRepository(IRepository<ApplicationUser> _repository)
+        public ApplicationUserRepository(IRepository<ApplicationUser> repositoryBase)
         {
-            if (_repository == null)
+            if (repositoryBase == null)
             {
-                throw new ArgumentException(nameof(_repository));
+                throw new ArgumentException(nameof(repositoryBase));
             }
 
-            this.repositoryBase = _repository;
+            this._repositoryBase = repositoryBase;
         }
 
         public ApplicationUser GetUserByUsername(string username)
         {
-            return this.repositoryBase.GetAll().FirstOrDefault(u => u.UserName == username);
+            return this._repositoryBase.GetAll().FirstOrDefault(u => u.UserName == username);
         }
 
         public IQueryable<ApplicationUser> GetPageOfUsers(int take, int skip, bool sortAsc, string searchPattern)
         {
-            var result = this.repositoryBase.GetAll();
+            var result = this._repositoryBase.GetAll();
    
 
             if (!string.IsNullOrEmpty(searchPattern))

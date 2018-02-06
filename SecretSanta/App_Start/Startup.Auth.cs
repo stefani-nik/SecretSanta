@@ -6,7 +6,7 @@ using SecretSanta.Data;
 
 namespace SecretSanta
 {
-    public class Startup
+    public partial class Startup
     {
         private const string PublicClientId = "self";
 

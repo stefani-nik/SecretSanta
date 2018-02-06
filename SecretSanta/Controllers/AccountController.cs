@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Script.Serialization;
 using SecretSanta.Service.IServices;
 using Microsoft.AspNet.Identity;
@@ -14,7 +15,8 @@ using Microsoft.Owin.Host.SystemWeb;
 
 namespace SecretSanta.Controllers
 {
-    [Authorize]
+    [RoutePrefix("api/login")]
+    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class AccountController : ApiController
     {
         private readonly IAccountService _accountsService;

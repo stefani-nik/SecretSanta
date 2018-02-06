@@ -12,7 +12,7 @@
 
             this.HasRequired(c => c.Group);
 
-            this.HasRequired(c => c.Sender)
+            this.HasRequired(c => c.Giver)
                 .WithMany(u => u.UsersToGiveTo);
 
             this.HasRequired(c => c.Receiver);

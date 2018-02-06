@@ -24,7 +24,7 @@ namespace SecretSanta.Data.Configuration
                 .WillCascadeOnDelete(true);
 
             this.HasMany(u => u.UsersToGiveTo)
-                .WithRequired(c => c.Sender)
+                .WithRequired(c => c.Giver)
                 .WillCascadeOnDelete(true);
         }
     }

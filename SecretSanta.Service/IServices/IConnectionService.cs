@@ -6,6 +6,6 @@ namespace SecretSanta.Service.IServices
     public interface IConnectionService
     {
         Connection GetConnectionInGroup(int groupId, string giverId);
-        Task<Connection> CreateConnectionsAsync(int groupId, ApplicationUser giver, ApplicationUser receiver);
+        void CreateConnection(Connection connection);
     }
 }

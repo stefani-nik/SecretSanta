@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace SecretSanta.Models
@@ -29,6 +32,13 @@ namespace SecretSanta.Models
             this.UsersToGiveTo = new HashSet<Connection>();
 
             this.ReceivedGifts = 0;
+        }
+
+        public async Task<ClaimsIdentity>
+            GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
+        {
+            var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
+            return userIdentity;
         }
 
     }

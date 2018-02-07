@@ -29,7 +29,7 @@ namespace SecretSanta.Data.Repositories
         {
             var invitations = this.repositoryBase.GetAll()
                 .Include(i => i.Group)
-                .Where(i => i.State == InvitationState.Pending && i.ReceiverId == userId);
+                .Where(i => i.State == InvitationState.Pending && i.Receiver.Id == userId);
 
             if (sortAsc)
             {

@@ -13,12 +13,9 @@ namespace SecretSanta.Models
     {
 
         public int InvitationId { get; set; }
-        
-        public int GropuId { get; set; }
 
         public virtual Group Group { get; set; }
 
-        public string ReceiverId { get; set; }
 
         public virtual ApplicationUser Receiver { get; set; }
 
@@ -26,10 +23,9 @@ namespace SecretSanta.Models
 
         public DateTime Date { get; set; }
 
-        public Invitation(int _groupId, string _receiverId, DateTime _date)
+        public Invitation(DateTime _date)
         {
-            this.GropuId = _groupId;
-            this.ReceiverId = _receiverId;
+           
             this.Date = _date;
             this.State = InvitationState.Pending;
         }

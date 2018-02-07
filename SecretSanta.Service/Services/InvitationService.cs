@@ -49,7 +49,7 @@ namespace SecretSanta.Service.Services
         public bool IsUserInvited(int groupId, string userId)
         {
             var invitation = this._invitationRepository.GetAll()
-                .FirstOrDefault(i => i.GropuId == groupId && i.ReceiverId == userId);
+                .FirstOrDefault(i => i.Group.GroupId == groupId && i.Receiver.Id == userId);
 
             return invitation != null;
         }
@@ -57,7 +57,7 @@ namespace SecretSanta.Service.Services
         public void CancelInvitation(int groupId, string userId)
         {
             var invitation = this._invitationRepository.GetAll()
-                 .FirstOrDefault(i => i.GropuId == groupId && i.ReceiverId == userId);
+                 .FirstOrDefault(i => i.Group.GroupId == groupId && i.Receiver.Id == userId);
 
             if (invitation == null)
             {

@@ -11,16 +11,11 @@
             Property(g => g.Name).IsRequired().HasMaxLength(20);
 
             this.HasRequired(g => g.Creator)
-                .WithMany(u => u.CreatedGroups);
+                .WithMany(u => u.CreatedGroups)
+                .WillCascadeOnDelete(false);
 
             this.HasMany(g => g.Members)
-                .WithMany(u => u.JoinedGroups)
-                .Map(conf =>
-                {
-                    conf.ToTable("UserGroups")
-                        .MapLeftKey("GroupId")
-                        .MapRightKey("Id");
-                });
+                .WithMany(m => m.JoinedGroups);
 
             this.HasMany(g => g.Invitations)
                 .WithRequired(i => i.Group)

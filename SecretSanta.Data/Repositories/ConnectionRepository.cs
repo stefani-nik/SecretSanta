@@ -26,7 +26,7 @@ namespace SecretSanta.Data.Repositories
 
         public Connection GetConnectionInGroup(int groupId, string userId)
         {
-            return this.repositoryBase.GetAll().FirstOrDefault(c => c.GroupId == groupId && c.GiverId == userId);
+            return this.repositoryBase.GetAll().FirstOrDefault(c => c.Group.GroupId == groupId && c.Giver.Id == userId);
         }
 
     }

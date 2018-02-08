@@ -11,9 +11,5 @@ namespace SecretSanta.Service.IServices
         IQueryable<ApplicationUser> GetPageOfUsers(int page, string orderBy, string searchPattern);
         bool HasConnectedUsers(string userId, int groupId);
 
-        void RegisterUser(ApplicationUser user);
-        void LoginUser(string username, string password);
-
-
     }
 }

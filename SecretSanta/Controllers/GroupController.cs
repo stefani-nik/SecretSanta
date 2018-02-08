@@ -19,6 +19,8 @@ namespace SecretSanta.Controllers
         private readonly IConnectionService _connectionService;
         private string _currentUserId;
 
+        public GroupController() { }
+
         public GroupController(IGroupService groupService,
             IUserService userService,
             IInvitationService invitationService,

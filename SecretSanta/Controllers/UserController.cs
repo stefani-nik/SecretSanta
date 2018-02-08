@@ -16,7 +16,7 @@ namespace SecretSanta.Controllers
 {
     [RoutePrefix("api/users")]
     [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
-    public class UsersController : ApiController
+    public class UserController : ApiController
     {
         private ApplicationUserManager _userManager;
         private readonly IUserService _usersService;
@@ -26,16 +26,22 @@ namespace SecretSanta.Controllers
         private string _currentUserUsername;
         private string _currentUserId;
 
-        public UsersController(IUserService usersService,
+        //public UserController() { }
+
+        public UserController(IUserService usersService,
             IGroupService groupsService,
             IInvitationService invitationService,
-            IConnectionService connectionsService)
+            IConnectionService connectionsService,
+            ApplicationUserManager userManager)
         {
             this._usersService = usersService;
             this._groupsService = groupsService;
             this._invitationService = invitationService;
             this._connectionsService = connectionsService;
+            this._userManager = userManager;
         }
+
+   
 
         public ApplicationUserManager UserManager
         {
@@ -65,7 +71,11 @@ namespace SecretSanta.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser(model.Username, model.DisplayName);
+            var user = new ApplicationUser
+            {
+                UserName = model.Username,
+                DisplayName = model.DisplayName
+            };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
             if (result.Succeeded)

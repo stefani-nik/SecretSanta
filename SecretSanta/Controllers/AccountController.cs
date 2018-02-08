@@ -20,6 +20,8 @@ namespace SecretSanta.Controllers
     {
         private readonly IAccountService _accountsService;
 
+        public AccountController () { }
+
         public AccountController(IAccountService accountsService)
         {
             this._accountsService = accountsService;

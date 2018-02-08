@@ -49,14 +49,7 @@ namespace SecretSanta.Service.Services
         {
             return _userRepository.HasConnectedUsers(userId, groupId);
         }
-
-        public void LoginUser(string username, string password) { }
-
-        public void RegisterUser(ApplicationUser user)
-        {
-            _userRepository.Add(user);
-        }
-
+       
         public void SaveUser()
         {
             _unitOfWork.Commit();

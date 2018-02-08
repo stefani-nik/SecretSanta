@@ -15,5 +15,7 @@ namespace SecretSanta.Models
         public string AuthToken { get; set; }
 
         public DateTime ExpirationDateTime { get; set; }
+
+        public Session() { }
     }
 }

@@ -21,11 +21,9 @@ namespace SecretSanta.Models
 
         public virtual ICollection<Connection> UsersToGiveTo { get; set; }
 
-        public ApplicationUser(string _username, string _displayName)
+        public ApplicationUser()
         {
-            this.UserName = _username;
-            this.DisplayName = _displayName;
-
+           
             this.CreatedGroups = new HashSet<Group>();
             this.JoinedGroups = new HashSet<Group>();
             this.PendingInvitations = new HashSet<Invitation>();

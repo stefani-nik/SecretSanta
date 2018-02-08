@@ -22,9 +22,10 @@ namespace SecretSanta.Models
         public ConnectionsState State;
 
 
-        public Group(string _name)
+        public Group(string name, ApplicationUser creator)
         {
-            this.Name = _name;
+            this.Name = name;
+            this.Creator = creator;
             this.Members = new HashSet<ApplicationUser>();
             this.Invitations = new HashSet<Invitation>();
             this.State = ConnectionsState.NotConnected;

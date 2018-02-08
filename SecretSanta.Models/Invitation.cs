@@ -12,7 +12,7 @@ namespace SecretSanta.Models
     public class Invitation
     {
 
-        public int InvitationId { get; set; }
+        public Guid InvitationId { get; set; }
 
         public virtual Group Group { get; set; }
 
@@ -23,10 +23,9 @@ namespace SecretSanta.Models
 
         public DateTime Date { get; set; }
 
-        public Invitation(DateTime _date)
+        public Invitation()
         {
            
-            this.Date = _date;
             this.State = InvitationState.Pending;
         }
 

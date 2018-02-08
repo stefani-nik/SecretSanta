@@ -34,9 +34,9 @@ namespace SecretSanta.Data.Repositories
             return this._repositoryBase.GetAll().FirstOrDefault(g => g.Name == name);
         }
 
-        public IQueryable<Group> GetPageOfGroups(string userId,int skip, int take)
+        public IQueryable<Group> GetPageOfGroups(string username,int skip, int take)
         {
-            return this._repositoryBase.GetAll().Where(g => g.Creator.Id == userId).Skip(skip).Take(take);
+            return this._repositoryBase.GetAll().Where(g => g.Creator.UserName == username).Skip(skip).Take(take);
         }
 
         public IQueryable<ApplicationUser> GetMembers(int groupId)

@@ -26,7 +26,7 @@ namespace SecretSanta.Data.Repositories
             return this._repositoryBase.GetAll().FirstOrDefault(u => u.UserName == username);
         }
 
-        public IQueryable<ApplicationUser> GetPageOfUsers(int take, int skip, bool sortAsc, string searchPattern)
+        public IQueryable<ApplicationUser> GetPageOfUsers(int take, int skip, string orderBy, string searchPattern)
         {
             var result = this._repositoryBase.GetAll();
    
@@ -37,12 +37,12 @@ namespace SecretSanta.Data.Repositories
                     .Where(u => u.DisplayName.Contains(searchPattern) || u.UserName.Contains(searchPattern));
             }
 
-            if (sortAsc)
+            if (orderBy == "asc")
             {
                 result = result
                     .OrderBy(u => u.DisplayName);
             }
-            else
+            else if(orderBy == "desc")
             {
                 result = result
                     .OrderByDescending(u => u.DisplayName);

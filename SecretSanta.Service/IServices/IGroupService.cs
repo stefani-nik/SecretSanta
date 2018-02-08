@@ -7,11 +7,14 @@ namespace SecretSanta.Service.IServices
     {
 
         Group GetGroupById(int groupId);
-        IQueryable<Group> GetPageOfGroups(string userId, int page);
+        Group GetGroupByName(string groupName);
+        IQueryable<Group> GetPageOfGroups(string username, int page);
         IQueryable<ApplicationUser> GetMembers(int groupId);
 
         void CreateGroup(Group group);
+        void AddMember(string groupName, ApplicationUser user);
         void RemoveUserFromGroup(int groupId, string userId);
+        void ChangeState(int groupId);
 
     }
 }

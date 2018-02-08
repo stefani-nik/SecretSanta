@@ -16,7 +16,6 @@ using Microsoft.Owin.Host.SystemWeb;
 namespace SecretSanta.Controllers
 {
     [RoutePrefix("api/login")]
-    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class AccountController : ApiController
     {
         private readonly IAccountService _accountsService;

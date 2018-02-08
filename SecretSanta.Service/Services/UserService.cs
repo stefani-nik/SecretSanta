@@ -33,10 +33,16 @@ namespace SecretSanta.Service.Services
             return _userRepository.GetUserByUsername(username);
         }
 
-        public IQueryable<ApplicationUser> GetPageOfUsers(int page, int limit, bool sortAsc = true, string searchPattern = null)
+        public ApplicationUser GetUserById(string userId)
         {
-            int skip = (page - 1)*limit;
-            return _userRepository.GetPageOfUsers(limit, skip, sortAsc, searchPattern);
+            return _userRepository.GetById(userId);
+        }
+
+        public IQueryable<ApplicationUser> GetPageOfUsers(int page, string orderBy, string searchPattern = null)
+        {
+            int recordsOnPage = 10;
+            int skip = (page - 1)*recordsOnPage;
+            return _userRepository.GetPageOfUsers(recordsOnPage, skip, orderBy, searchPattern);
         }
 
         public bool HasConnectedUsers(string userId, int groupId)

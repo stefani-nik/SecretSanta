@@ -33,11 +33,11 @@ namespace SecretSanta.Service.Services
         }
 
 
-        public IQueryable<Invitation> GetPageOfPendingInvitations(string userId, int page , bool sortAsc = true)
+        public IQueryable<Invitation> GetPageOfPendingInvitations(string userId, int page , string orderBy)
         {
             const int recordsOnPage = 10;
             int skip = (page - 1) * recordsOnPage;
-            return this._invitationRepository.GetPageOfPendingInvitations(userId, recordsOnPage, skip, sortAsc);
+            return this._invitationRepository.GetPageOfPendingInvitations(userId, recordsOnPage, skip, orderBy);
         }
 
         public void CreateInvittation(Invitation invitation)
@@ -46,10 +46,10 @@ namespace SecretSanta.Service.Services
             this._unitOfWork.Commit();
         }
 
-        public bool IsUserInvited(int groupId, string userId)
+        public bool IsUserInvited(string groupName, string userId)
         {
             var invitation = this._invitationRepository.GetAll()
-                .FirstOrDefault(i => i.Group.GroupId == groupId && i.Receiver.Id == userId);
+                .FirstOrDefault(i => i.Group.Name == groupName && i.Receiver.Id == userId);
 
             return invitation != null;
         }

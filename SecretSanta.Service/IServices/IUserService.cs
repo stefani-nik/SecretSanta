@@ -7,7 +7,8 @@ namespace SecretSanta.Service.IServices
     public interface IUserService
     {
         ApplicationUser GetUserByUsername(string username);
-        IQueryable<ApplicationUser> GetPageOfUsers(int page, int limit, bool sortAsc, string searchPattern);
+        ApplicationUser GetUserById(string userId);
+        IQueryable<ApplicationUser> GetPageOfUsers(int page, string orderBy, string searchPattern);
         bool HasConnectedUsers(string userId, int groupId);
 
         void RegisterUser(ApplicationUser user);

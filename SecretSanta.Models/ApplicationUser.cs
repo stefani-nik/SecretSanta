@@ -34,8 +34,7 @@ namespace SecretSanta.Models
             this.ReceivedGifts = 0;
         }
 
-        public async Task<ClaimsIdentity>
-            GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
             var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
             return userIdentity;

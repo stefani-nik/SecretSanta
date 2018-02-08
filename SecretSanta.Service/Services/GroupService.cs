@@ -33,11 +33,16 @@ namespace SecretSanta.Service.Services
             return this._groupRepository.GetGroupById(groupId);
         }
 
-        public IQueryable<Group> GetPageOfGroups(string userId, int page)
+        public Group GetGroupByName(string groupName)
+        {
+            return this._groupRepository.GetGroupByName(groupName);
+        }
+
+        public IQueryable<Group> GetPageOfGroups(string username, int page)
         {
             const int recordsOnPage = 10;
             int skip = (page - 1)*recordsOnPage;
-            return this._groupRepository.GetPageOfGroups(userId, recordsOnPage, skip);
+            return this._groupRepository.GetPageOfGroups(username, recordsOnPage, skip);
         }
 
         public IQueryable<ApplicationUser> GetMembers(int groupId)
@@ -59,6 +64,19 @@ namespace SecretSanta.Service.Services
             
         }
 
+        public void AddMember(string groupName , ApplicationUser user)
+        {
+            var group = this._groupRepository.GetGroupByName(groupName);
+
+            if (group == null)
+            {
+                throw new ArgumentNullException(nameof(group));
+            }
+
+            group.Members.Add(user);
+            this._unitOfWork.Commit();
+        }
+
         public void RemoveUserFromGroup(int groupId, string userId)
         {
             var group = this._groupRepository.GetGroupById(groupId);
@@ -71,6 +89,13 @@ namespace SecretSanta.Service.Services
 
             group.Members.Remove(user);
             this._unitOfWork.Commit();
+        }
+
+        public void ChangeState(int groupId)
+        {
+            var group = this._groupRepository.GetGroupById(groupId);
+            group.State = ConnectionsState.Connected;
+            _unitOfWork.Commit();
         }
     }
 }

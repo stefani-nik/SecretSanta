@@ -5,7 +5,7 @@ namespace SecretSanta.Service.IServices
 {
     public interface IConnectionService
     {
-        Connection GetConnectionInGroup(int groupId, string giverId);
-        void CreateConnection(Connection connection);
+        Connection GetConnectionInGroup(string username, string groupName);
+        void CreateConnections(int groupId);
     }
 }

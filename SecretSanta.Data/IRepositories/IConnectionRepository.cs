@@ -5,6 +5,6 @@ namespace SecretSanta.Data.IRepositories
 {
     public interface IConnectionRepository : IRepository<Connection>
     {
-        Connection GetConnectionInGroup(int groupId, string giverId);
+        Connection GetConnectionInGroup(string username, string groupName);
     }
 }

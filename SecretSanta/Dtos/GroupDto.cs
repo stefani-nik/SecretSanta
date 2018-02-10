@@ -8,6 +8,7 @@ namespace SecretSanta.Dtos
         {
             GroupName = groupName;
             CreatorName = ownerName;
+            Members = new HashSet<UserProfileDto>();
         }
 
         public GroupDto(string groupName, string ownerName, ICollection<UserProfileDto> members)

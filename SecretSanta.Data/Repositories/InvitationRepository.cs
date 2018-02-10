@@ -27,26 +27,28 @@ namespace SecretSanta.Data.Repositories
         //    this.repositoryBase = _repository;
         //}
 
-        public IQueryable<Invitation> GetPageOfPendingInvitations(string userId, int take, int skip, string orderBy)
+        public IEnumerable<Invitation> GetPageOfPendingInvitations(string userId, int take, int skip, string orderBy)
         {
             var invitations = this.GetAll
                 .Include(i => i.Group)
-                .Where(i => i.State == InvitationState.Pending && i.Receiver.Id == userId);
+                .Where(i => i.State == InvitationState.Pending && i.Receiver.Id == userId)
+                .ToList();
 
             if (orderBy == "asc")
             {
                 invitations = invitations
-                    .OrderBy(i => i.Date);
+                    .OrderBy(i => i.Date).ToList();
             }
             else if(orderBy == "desc")
             {
                 invitations = invitations
-                   .OrderByDescending(i => i.Date);
+                   .OrderByDescending(i => i.Date).ToList();
             }
 
             invitations = invitations
                 .Skip(skip)
-                .Take(take);
+                .Take(take)
+                .ToList();
 
             return invitations;
         }

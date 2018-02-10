@@ -15,7 +15,6 @@ using SecretSanta.Service.IServices;
 namespace SecretSanta.Controllers
 {
     [RoutePrefix("api/users")]
-    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class UserController : ApiController
     {
         private ApplicationUserManager _userManager;
@@ -26,7 +25,7 @@ namespace SecretSanta.Controllers
         private string _currentUserUsername;
         private string _currentUserId;
 
-        //public UserController() { }
+
 
         public UserController(IUserService usersService,
             IGroupService groupsService,
@@ -171,7 +170,7 @@ namespace SecretSanta.Controllers
         }
 
         [HttpGet]
-        [Route("{username}/requests")]
+        [Route("{username}/invitations")]
         public IHttpActionResult GetAllRequests([FromUri] string username, [FromUri]GetUsersCriteria criteria)
         {
             if (string.IsNullOrEmpty(username) ||
@@ -198,9 +197,11 @@ namespace SecretSanta.Controllers
         }
 
         [HttpPost]
-        [Route("{username}/requests")]
+        [Route("{username}/invitations")]
         public IHttpActionResult SendRequest([FromUri] string username, [FromBody]InvitationDto request)
         {
+
+            // TODO: The owner cannot send requests to himself
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(request.GroupName))
             {
                 return BadRequest();
@@ -239,7 +240,7 @@ namespace SecretSanta.Controllers
         }
 
         [HttpDelete]
-        [Route("{username}/requests/{id}")]
+        [Route("{username}/invitations/{id}")]
         public IHttpActionResult DeleteRequest([FromUri] string username, [FromUri] string id)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(id))

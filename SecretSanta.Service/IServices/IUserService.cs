@@ -1,4 +1,5 @@
-﻿using SecretSanta.Models;
+﻿using System.Collections.Generic;
+using SecretSanta.Models;
 using System.Linq;
 
 
@@ -8,7 +9,7 @@ namespace SecretSanta.Service.IServices
     {
         ApplicationUser GetUserByUsername(string username);
         ApplicationUser GetUserById(string userId);
-        IQueryable<ApplicationUser> GetPageOfUsers(int page, string orderBy, string searchPattern);
+        IEnumerable<ApplicationUser> GetPageOfUsers(int page, string orderBy, string searchPattern);
         bool HasConnectedUsers(string userId, int groupId);
 
     }

@@ -19,7 +19,7 @@ namespace SecretSanta.Data.Infrastructure
             this._dbContext = dbContext;
         }
 
-        public IQueryable<T> GetAll => this._dbContext.DbSet<T>();
+        public IOrderedQueryable<T> GetAll => (IOrderedQueryable<T>)this._dbContext.DbSet<T>();
 
         public void Add(T entity)
         {

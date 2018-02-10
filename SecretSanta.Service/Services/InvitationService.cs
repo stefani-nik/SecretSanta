@@ -33,7 +33,7 @@ namespace SecretSanta.Service.Services
         }
 
 
-        public IQueryable<Invitation> GetPageOfPendingInvitations(string userId, int page , string orderBy)
+        public IEnumerable<Invitation> GetPageOfPendingInvitations(string userId, int page , string orderBy)
         {
             const int recordsOnPage = 10;
             int skip = (page - 1) * recordsOnPage;

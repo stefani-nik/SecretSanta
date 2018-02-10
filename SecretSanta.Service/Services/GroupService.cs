@@ -53,13 +53,7 @@ namespace SecretSanta.Service.Services
 
         public void CreateGroup(Group group)
         {
-            var checkIfExists = this._groupRepository.GetGroupByName(group.Name);
-
-            if (checkIfExists != null)
-            {
-                throw  new ArgumentException("Groupname must be uniqe!");
-            }
-
+           
            _groupRepository.Add(group);
             this._unitOfWork.Commit();
             

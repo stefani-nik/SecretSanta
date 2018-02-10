@@ -10,7 +10,7 @@ namespace SecretSanta.Data.IInfrastructure
 
         T GetById(object id);
 
-        IQueryable<T> GetAll { get; }
+        IOrderedQueryable<T> GetAll { get; }
 
         void Add(T entity);
 

@@ -3,6 +3,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using SecretSanta.Data;
+using SecretSanta.Providers;
 
 namespace SecretSanta
 {
@@ -24,7 +25,7 @@ namespace SecretSanta
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
                 TokenEndpointPath = new PathString(TokenEndpointPath),
-                Provider = new OAuthAuthorizationServerProvider(),
+                Provider = new ApplicationOAuthProvider(PublicClientId),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
                 AllowInsecureHttp = true
             };

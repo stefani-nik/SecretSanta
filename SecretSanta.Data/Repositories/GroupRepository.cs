@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +34,7 @@ namespace SecretSanta.Data.Repositories
 
         public Group GetGroupByName(string name)
         {
-            return this.GetAll.FirstOrDefault(g => g.Name == name);
+            return this.GetAll.Include(g => g.Members).FirstOrDefault(g => g.Name == name);
         }
 
         public IQueryable<Group> GetPageOfGroups(string username,int skip, int take)

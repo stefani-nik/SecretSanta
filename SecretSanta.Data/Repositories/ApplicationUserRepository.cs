@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SecretSanta.Data.IInfrastructure;
 using SecretSanta.Data.Infrastructure;
@@ -28,31 +29,32 @@ namespace SecretSanta.Data.Repositories
             return this.GetAll.FirstOrDefault(u => u.UserName == username);
         }
 
-        public IQueryable<ApplicationUser> GetPageOfUsers(int take, int skip, string orderBy, string searchPattern)
+        public IEnumerable<ApplicationUser> GetPageOfUsers(int take, int skip, string orderBy, string searchPattern)
         {
-            var result = this.GetAll;
+            List<ApplicationUser> result = this.GetAll.ToList();
    
 
             if (!string.IsNullOrEmpty(searchPattern))
             {
                 result = result
-                    .Where(u => u.DisplayName.Contains(searchPattern) || u.UserName.Contains(searchPattern));
+                    .Where(u => u.DisplayName.Contains(searchPattern) || u.UserName.Contains(searchPattern)).ToList();
             }
 
             if (orderBy == "asc")
             {
                 result = result
-                    .OrderBy(u => u.DisplayName);
+                    .OrderBy(u => u.DisplayName).ToList();
             }
             else if(orderBy == "desc")
             {
                 result = result
-                    .OrderByDescending(u => u.DisplayName);
+                    .OrderByDescending(u => u.DisplayName).ToList();
             }
 
             result = result
                 .Skip(skip)
-                .Take(take);
+                .Take(take)
+                .ToList();
 
             return result;
 

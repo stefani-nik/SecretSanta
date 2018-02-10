@@ -9,7 +9,7 @@ namespace SecretSanta.Service.IServices
 {
     public interface IInvitationService
     {
-        IQueryable<Invitation> GetPageOfPendingInvitations(string userId,int page, string orderBy);
+        IEnumerable<Invitation> GetPageOfPendingInvitations(string userId,int page, string orderBy);
         void CreateInvittation(Invitation invitation);
         bool IsUserInvited(string groupName, string userId);
 

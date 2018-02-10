@@ -21,6 +21,11 @@ namespace SecretSanta.Models
 
         public ConnectionsState State;
 
+        public Group()
+        {
+            this.Members = new HashSet<ApplicationUser>();
+            this.Invitations = new HashSet<Invitation>();
+        }
 
         public Group(string name, ApplicationUser creator)
         {

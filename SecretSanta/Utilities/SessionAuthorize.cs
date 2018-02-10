@@ -45,9 +45,14 @@ namespace SecretSanta.Utilities
                 ((GroupController)actionContext.ControllerContext.Controller)
                     .SetCurrentUserId(userSession.UserId);
             }
+            else if (actionContext.ControllerContext.Controller.GetType() == typeof(UserController))
+            {
+                ((UserController) actionContext.ControllerContext.Controller)
+                    .SetCurrentUser(userSession.UserId, userSession.User.UserName);
+            }
             else
             {
-                ((UserController)actionContext.ControllerContext.Controller)
+                ((AccountController)actionContext.ControllerContext.Controller)
                     .SetCurrentUser(userSession.UserId, userSession.User.UserName);
             }
 

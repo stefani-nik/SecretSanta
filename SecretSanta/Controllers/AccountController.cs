@@ -5,7 +5,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Results;
 using System.Web.Script.Serialization;
+using System.Web.UI.WebControls;
 using SecretSanta.Service.IServices;
 using Microsoft.AspNet.Identity;
 using SecretSanta.Dtos;
@@ -17,11 +19,18 @@ namespace SecretSanta.Controllers
     public class AccountController : ApiController
     {
         private readonly IAccountService _accountsService;
+        private string _currentUserUsername;
+        private string _currentUserId;
 
-       
         public AccountController(IAccountService accountsService)
         {
             this._accountsService = accountsService;
+        }
+
+        public void SetCurrentUser(string id, string username)
+        {
+            this._currentUserId = id;
+            this._currentUserUsername = username;
         }
 
         [HttpPost]
@@ -59,16 +68,17 @@ namespace SecretSanta.Controllers
                 {
                     this._accountsService.CreateUserSession(username, authToken);
                 }
-                catch (Exception)
-                {
+               catch (Exception)
+               {
+                   
                     return NotFound();
-                }
+               }
 
                 this._accountsService.DeleteExpiredSessions();
             }
             else
             {
-                return NotFound();
+                return this.ResponseMessage(tokenServiceResponse);
             }
 
 
@@ -79,7 +89,8 @@ namespace SecretSanta.Controllers
         [Route("")]
         public IHttpActionResult Logout()
         {
-            HttpContext.Current.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ExternalBearer);
+            var authenticationManager = HttpContext.Current.GetOwinContext().Authentication;
+            authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie, DefaultAuthenticationTypes.ExternalBearer);
 
             try
             {

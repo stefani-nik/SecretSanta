@@ -13,10 +13,11 @@ namespace SecretSanta.Data
         public SecretSantaContext()
             : base("name=SecretSantaContext")
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<SecretSantaContext, Migrations.Configuration>());
+            Database.SetInitializer(new SeedData());
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<SecretSantaContext, Migrations.Configuration>());
         }
 
-         public virtual DbSet<Group> Groups { get; set; }
+        public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<Invitation> Invitations { get; set; }
         public virtual DbSet<Connection> Connections { get; set; }
         public virtual DbSet<Session> Sessions { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SecretSanta.Data.IInfrastructure;
 using SecretSanta.Data.IRepositories;
@@ -38,7 +39,7 @@ namespace SecretSanta.Service.Services
             return _userRepository.GetById(userId);
         }
 
-        public IQueryable<ApplicationUser> GetPageOfUsers(int page, string orderBy, string searchPattern = null)
+        public IEnumerable<ApplicationUser> GetPageOfUsers(int page, string orderBy, string searchPattern = null)
         {
             int recordsOnPage = 10;
             int skip = (page - 1)*recordsOnPage;

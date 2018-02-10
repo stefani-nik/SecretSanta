@@ -75,11 +75,9 @@ namespace SecretSanta.Controllers
                 var group = new Group(groupModel.Name, currentUser);
            
                 this._groupService.CreateGroup(group);
-                var members = group.Members.Select(
-                    u => new UserProfileDto(u.UserName, u.DisplayName))
-                    .ToList();
+          
 
-                var model = new GroupDto(group.Name, group.Creator.DisplayName, members);
+                var model = new GroupDto(group.Name, group.Creator.DisplayName);
 
                 return Content(HttpStatusCode.Created, model);
             }
@@ -120,6 +118,8 @@ namespace SecretSanta.Controllers
         [Route("{groupName}/members")]
         public IHttpActionResult AddMember([FromUri] string groupName, [FromBody] UserProfileDto userModel)
         {
+
+            // TODO: Change invitation state 
             if (string.IsNullOrEmpty(groupName) || !ModelState.IsValid)
             {
                 return BadRequest();

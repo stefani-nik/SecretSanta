@@ -66,7 +66,7 @@ namespace SecretSanta.Service.Services
             }
         }
 
-        private IDictionary<int, int> GenerateConnections(IQueryable<ApplicationUser> members)
+        private IDictionary<int, int> GenerateConnections(ICollection<ApplicationUser> members)
         {
             var count = members.Count();
 

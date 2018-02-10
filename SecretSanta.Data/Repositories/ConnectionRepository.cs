@@ -12,21 +12,23 @@ namespace SecretSanta.Data.Repositories
 {
     public class ConnectionRepository : RepositoryBase<Connection>, IConnectionRepository
     {
-        private readonly IRepository<Connection> repositoryBase;
+        public ConnectionRepository(SecretSantaContext dbContext) : base(dbContext) { }
 
-        public ConnectionRepository(IRepository<Connection> _repository)
-        {
-            if (_repository == null)
-            {
-                throw  new ArgumentException(nameof(_repository));
-            }
+        //private readonly IRepository<Connection> repositoryBase;
 
-            this.repositoryBase = _repository;
-        }
+        //public ConnectionRepository(IRepository<Connection> _repository)
+        //{
+        //    if (_repository == null)
+        //    {
+        //        throw  new ArgumentException(nameof(_repository));
+        //    }
+
+        //    this.repositoryBase = _repository;
+        //}
 
         public Connection GetConnectionInGroup(string username, string groupName)
         {
-            return this.repositoryBase.GetAll().FirstOrDefault(c => c.Group.Name == groupName && c.Giver.UserName == username);
+            return this.GetAll.FirstOrDefault(c => c.Group.Name == groupName && c.Giver.UserName == username);
         }
 
     }

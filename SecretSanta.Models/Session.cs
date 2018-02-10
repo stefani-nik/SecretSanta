@@ -5,7 +5,7 @@ namespace SecretSanta.Models
 {
     public class Session
     {
-        public Guid Id { get; set; }
+        public int SessionId { get; set; }
 
         public string UserId { get; set; }
 
@@ -15,7 +15,5 @@ namespace SecretSanta.Models
         public string AuthToken { get; set; }
 
         public DateTime ExpirationDateTime { get; set; }
-
-        public Session() { }
     }
 }

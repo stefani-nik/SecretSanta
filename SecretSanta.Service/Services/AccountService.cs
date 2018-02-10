@@ -4,17 +4,18 @@ using System.Net.Http;
 using SecretSanta.Data.IInfrastructure;
 using SecretSanta.Service.IServices;
 using System.Web;
+using SecretSanta.Data.IRepositories;
 using SecretSanta.Models;
 
 namespace SecretSanta.Service.Services
 {
     public class AccountService : IAccountService
     {
-        private readonly IRepository<Session> _repository;
+        private readonly IAccountRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _usersService;
 
-        public AccountService(IRepository<Session> repository, IUnitOfWork unitOfWork, IUserService usersService)
+        public AccountService(IAccountRepository repository, IUnitOfWork unitOfWork, IUserService usersService)
         {
             this._repository = repository;
             this._unitOfWork = unitOfWork;
@@ -34,7 +35,6 @@ namespace SecretSanta.Service.Services
 
             var userSession = new Session
             {
-                Id = Guid.NewGuid(),
                 UserId = userId,
                 AuthToken = authToken,
                 ExpirationDateTime = DateTime.Now + new TimeSpan(0, 30, 0)
@@ -47,7 +47,7 @@ namespace SecretSanta.Service.Services
         public void DeleteExpiredSessions()
         {
             var userSessions = this._repository
-                .GetAll()
+                .GetAll
                 .Where(session => session.ExpirationDateTime < DateTime.Now);
 
             foreach (var session in userSessions)
@@ -61,7 +61,7 @@ namespace SecretSanta.Service.Services
         public Session ReValidateSession(string authToken)
         {
             var userSession = this._repository
-                .GetAll()
+                .GetAll
                 .FirstOrDefault(session => session.AuthToken == authToken);
 
             if (userSession == null || userSession.ExpirationDateTime < DateTime.Now)
@@ -85,7 +85,7 @@ namespace SecretSanta.Service.Services
             }
 
             var userSession = this._repository
-                .GetAll()
+                .GetAll
                 .FirstOrDefault(session =>
                 session.AuthToken == authToken);
 

@@ -13,21 +13,23 @@ namespace SecretSanta.Data.Repositories
 {
     public class InvitationRepository : RepositoryBase<Invitation>, IInvitationRepository
     {
-        private readonly IRepository<Invitation> repositoryBase;
+        public InvitationRepository(SecretSantaContext dbContext) : base(dbContext) { }
 
-        public InvitationRepository(IRepository<Invitation> _repository)
-        {
-            if (_repository == null)
-            {
-                throw new ArgumentException(nameof(_repository));
+        //private readonly IRepository<Invitation> repositoryBase;
 
-            }
-            this.repositoryBase = _repository;
-        }
+        //public InvitationRepository(IRepository<Invitation> _repository)
+        //{
+        //    if (_repository == null)
+        //    {
+        //        throw new ArgumentException(nameof(_repository));
+
+        //    }
+        //    this.repositoryBase = _repository;
+        //}
 
         public IQueryable<Invitation> GetPageOfPendingInvitations(string userId, int take, int skip, string orderBy)
         {
-            var invitations = this.repositoryBase.GetAll()
+            var invitations = this.GetAll
                 .Include(i => i.Group)
                 .Where(i => i.State == InvitationState.Pending && i.Receiver.Id == userId);
 

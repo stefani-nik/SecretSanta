@@ -5,7 +5,7 @@ namespace SecretSanta.Dtos
     public class InvitationDto
     {
 
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public string GroupName { get; set; }
 
@@ -13,7 +13,7 @@ namespace SecretSanta.Dtos
 
         public DateTime Date { get; set; }
 
-        public InvitationDto(Guid id, string groupName, string ownerName, DateTime date)
+        public InvitationDto(int id, string groupName, string ownerName, DateTime date)
         {
             Id = id;
             GroupName = groupName;

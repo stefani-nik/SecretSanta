@@ -9,6 +9,7 @@ using System.Web.Http.Filters;
 using Autofac.Integration.WebApi;
 using SecretSanta.Controllers;
 using SecretSanta.Service.IServices;
+using SecretSanta.Service.Services;
 
 namespace SecretSanta.Utilities
 {

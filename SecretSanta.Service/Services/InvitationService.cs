@@ -48,7 +48,7 @@ namespace SecretSanta.Service.Services
 
         public bool IsUserInvited(string groupName, string userId)
         {
-            var invitation = this._invitationRepository.GetAll()
+            var invitation = this._invitationRepository.GetAll
                 .FirstOrDefault(i => i.Group.Name == groupName && i.Receiver.Id == userId);
 
             return invitation != null;
@@ -56,7 +56,7 @@ namespace SecretSanta.Service.Services
 
         public void CancelInvitation(int groupId, string userId)
         {
-            var invitation = this._invitationRepository.GetAll()
+            var invitation = this._invitationRepository.GetAll
                  .FirstOrDefault(i => i.Group.GroupId == groupId && i.Receiver.Id == userId);
 
             if (invitation == null)

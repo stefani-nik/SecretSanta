@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SecretSanta.Data.IInfrastructure;
 using SecretSanta.Data.IRepositories;
@@ -45,7 +46,7 @@ namespace SecretSanta.Service.Services
             return this._groupRepository.GetPageOfGroups(username, recordsOnPage, skip);
         }
 
-        public IQueryable<ApplicationUser> GetMembers(int groupId)
+        public ICollection<ApplicationUser> GetMembers(int groupId)
         {
             return this._groupRepository.GetMembers(groupId);
         }

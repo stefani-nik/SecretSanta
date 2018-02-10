@@ -12,7 +12,7 @@ namespace SecretSanta.Models
     public class Invitation
     {
 
-        public Guid InvitationId { get; set; }
+        public int InvitationId { get; set; }
 
         public virtual Group Group { get; set; }
 

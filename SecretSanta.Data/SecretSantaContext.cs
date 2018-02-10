@@ -19,6 +19,7 @@ namespace SecretSanta.Data
          public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<Invitation> Invitations { get; set; }
         public virtual DbSet<Connection> Connections { get; set; }
+        public virtual DbSet<Session> Sessions { get; set; }
 
         public virtual void Commit()
         {
@@ -38,6 +39,29 @@ namespace SecretSanta.Data
    
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        public IDbSet<TEntity> DbSet<TEntity>() where TEntity : class
+        {
+            return this.Set<TEntity>();
+        }
+
+        public void SetAdded<TEntry>(TEntry entity) where TEntry : class
+        {
+            var entry = this.Entry(entity);
+            entry.State = EntityState.Added;
+        }
+
+        public void SetDeleted<TEntry>(TEntry entity) where TEntry : class
+        {
+            var entry = this.Entry(entity);
+            entry.State = EntityState.Deleted;
+        }
+
+        public void SetUpdated<TEntry>(TEntry entity) where TEntry : class
+        {
+            var entry = this.Entry(entity);
+            entry.State = EntityState.Modified;
         }
     }
 

@@ -4,6 +4,8 @@ using System.Web.Http;
 using Autofac;
 using Autofac.Features.ResolveAnything;
 using Autofac.Integration.WebApi;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
 using SecretSanta.Controllers;
@@ -32,9 +34,6 @@ namespace SecretSanta
 
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-
-            builder.RegisterType<Disposable>().As<IDisposable>().InstancePerRequest();
-            builder.RegisterType<DbFactory>().As<IDbFactory>().InstancePerRequest();
     
 
             builder.RegisterType<UserService>().As<IUserService>().InstancePerRequest();
@@ -43,9 +42,8 @@ namespace SecretSanta
             builder.RegisterType<ConnectionService>().As<IConnectionService>().InstancePerRequest();
             builder.RegisterType<AccountService>().As<IAccountService>().InstancePerRequest();
 
-            builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
-
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
+
             builder.RegisterType<SecretSantaContext>().AsSelf().InstancePerRequest();
             builder.RegisterGeneric(typeof(RepositoryBase<>)).As(typeof(IRepository<>)).InstancePerRequest();
 
@@ -53,8 +51,9 @@ namespace SecretSanta
             builder.RegisterType<GroupRepository>().As<IGroupRepository>().InstancePerRequest();
             builder.RegisterType<InvitationRepository>().As<IInvitationRepository>().InstancePerRequest();
             builder.RegisterType<ConnectionRepository>().As<IConnectionRepository>().InstancePerRequest();
+            builder.RegisterType<AccountRepository>().As<IAccountRepository>().InstancePerRequest();
 
-            
+
 
 
             var config = GlobalConfiguration.Configuration;

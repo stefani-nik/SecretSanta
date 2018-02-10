@@ -4,19 +4,18 @@
 
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly IDbFactory _dbFactory;
-        private SecretSantaContext _dbContext;
 
-        public UnitOfWork(IDbFactory dbFactory)
+        private readonly  SecretSantaContext _dbContext;
+
+        public UnitOfWork(SecretSantaContext dbContext)
         {
-            _dbFactory = dbFactory;
+            this._dbContext = dbContext;
         }
 
-        public SecretSantaContext DbContext => _dbContext ?? (_dbContext = _dbFactory.Init());
 
         public void Commit()
         {
-            DbContext.Commit();
+            this._dbContext.Commit();
         }
     }
 }

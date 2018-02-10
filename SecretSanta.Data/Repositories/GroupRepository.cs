@@ -12,37 +12,39 @@ namespace SecretSanta.Data.Repositories
 {
     public class GroupRepository : RepositoryBase<Group>, IGroupRepository
     {
-        private readonly IRepository<Group> _repositoryBase;
+        public GroupRepository(SecretSantaContext dbContext) : base(dbContext) { }
 
-        public GroupRepository(IRepository<Group> repositoryBase)
-        {
-            if (repositoryBase == null)
-            {
-                throw new ArgumentException(nameof(repositoryBase));
+        //private readonly IRepository<Group> _repositoryBase;
 
-            }
-            this._repositoryBase = repositoryBase;
-        }
+        //public GroupRepository(IRepository<Group> repositoryBase)
+        //{
+        //    if (repositoryBase == null)
+        //    {
+        //        throw new ArgumentException(nameof(repositoryBase));
+
+        //    }
+        //    this._repositoryBase = repositoryBase;
+        //}
 
         public Group GetGroupById(int groupId)
         {
-            return this._repositoryBase.GetById(groupId);
+            return this.GetById(groupId);
         }
 
         public Group GetGroupByName(string name)
         {
-            return this._repositoryBase.GetAll().FirstOrDefault(g => g.Name == name);
+            return this.GetAll.FirstOrDefault(g => g.Name == name);
         }
 
         public IQueryable<Group> GetPageOfGroups(string username,int skip, int take)
         {
-            return this._repositoryBase.GetAll().Where(g => g.Creator.UserName == username).Skip(skip).Take(take);
+            return this.GetAll.Where(g => g.Creator.UserName == username).Skip(skip).Take(take);
         }
 
-        public IQueryable<ApplicationUser> GetMembers(int groupId)
+        public ICollection<ApplicationUser> GetMembers(int groupId)
         {
-            var group = this._repositoryBase.GetById(groupId);
-            return this.DbContext.Users.Where(u => u.JoinedGroups.Contains(group));
+            return this.GetById(groupId).Members;
+           // return this.DbContext.Users.Where(u => u.JoinedGroups.Contains(group));
 
         }
     }

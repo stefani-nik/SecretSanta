@@ -11,76 +11,100 @@ namespace SecretSanta.Data.Infrastructure
 
     public abstract class RepositoryBase<T> : IRepository<T> where T : class
     {
-        // Properties
-        private SecretSantaContext _dataContext;
 
-        private readonly IDbSet<T> _dbSet;
+        private readonly SecretSantaContext _dbContext;
 
-        protected IDbFactory DbFactory { get; }
-
-        protected SecretSantaContext DbContext => _dataContext ?? (_dataContext = DbFactory.Init());
-
-        protected RepositoryBase() { }
-
-        protected RepositoryBase(IDbFactory dbFactory)
+        public RepositoryBase(SecretSantaContext dbContext)
         {
-            DbFactory = dbFactory;
-            _dbSet = DbContext.Set<T>();
+            this._dbContext = dbContext;
         }
 
-        //Implementation
-        public virtual int GetCount()
+        public IQueryable<T> GetAll => this._dbContext.DbSet<T>();
+
+        public void Add(T entity)
         {
-            return _dbSet.ToList().Count();
+            this._dbContext.SetAdded(entity);
         }
 
-
-        public virtual void Add(T entity)
+        public void Delete(T entity)
         {
-            _dbSet.Add(entity);
+            this._dbContext.SetDeleted(entity);
         }
 
-        public virtual void Update(T entity)
+        public T GetById(object id)
         {
-            _dbSet.Attach(entity);
-            _dataContext.Entry(entity).State = EntityState.Modified;
+            return this._dbContext.DbSet<T>().Find(id);
         }
 
-        public virtual void Delete(T entity)
+        public void Update(T entity)
         {
-            _dbSet.Remove(entity);
+            this._dbContext.SetUpdated(entity);
         }
+        //// Properties
+        //private readonly SecretSantaContext _dataContext;
+        //private readonly DbSet<T> _dbSet;
+        ////protected DbFactory DbFactory { get; }
 
-        public virtual void Delete(Expression<Func<T, bool>> where)
-        {
-            IEnumerable<T> objects = _dbSet.Where<T>(where).AsEnumerable();
-            foreach (T obj in objects)
-                _dbSet.Remove(obj);
-        }
+        //public RepositoryBase() { }
+        //public RepositoryBase(SecretSantaContext dataContext)
+        //{
+        //    this._dataContext = dataContext;
+        //    _dbSet = _dataContext.Set<T>();
+        //}
 
-        public virtual T GetById(string id)
-        {
-            return _dbSet.Find(id);
-        }
+        ////Implementation
+        //public virtual int GetCount()
+        //{
+        //    return _dbSet.ToList().Count;
+        //}
 
-        public virtual T GetById(int id)
-        {
-            return _dbSet.Find(id);
-        }
 
-        public virtual IQueryable<T> GetAll()
-        {
-            return _dbSet;
-        }
+        //public virtual void Add(T entity)
+        //{
+        //    this._dbSet.Add(entity);
+        //}
 
-        public virtual IQueryable<T> GetMany(Expression<Func<T, bool>> where)
-        {
-            return _dbSet.Where(where);
-        }
+        //public virtual void Update(T entity)
+        //{
+        //    _dbSet.Attach(entity);
+        //    _dataContext.Entry(entity).State = EntityState.Modified;
+        //}
 
-        public T Get(Expression<Func<T, bool>> where)
-        {
-            return _dbSet.Where(where).FirstOrDefault<T>();
-        }
+        //public virtual void Delete(T entity)
+        //{
+        //    _dbSet.Remove(entity);
+        //}
+
+        //public virtual void Delete(Expression<Func<T, bool>> where)
+        //{
+        //    IEnumerable<T> objects = _dbSet.Where<T>(where).AsEnumerable();
+        //    foreach (T obj in objects)
+        //        _dbSet.Remove(obj);
+        //}
+
+        //public virtual T GetById(string id)
+        //{
+        //    return _dbSet.Find(id);
+        //}
+
+        //public virtual T GetById(int id)
+        //{
+        //    return _dbSet.Find(id);
+        //}
+
+        //public virtual IQueryable<T> GetAll()
+        //{
+        //    return _dbSet;
+        //}
+
+        //public virtual IQueryable<T> GetMany(Expression<Func<T, bool>> where)
+        //{
+        //    return _dbSet.Where(where);
+        //}
+
+        //public T Get(Expression<Func<T, bool>> where)
+        //{
+        //    return _dbSet.Where(where).FirstOrDefault<T>();
+        //}
     }
 }

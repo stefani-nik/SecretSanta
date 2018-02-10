@@ -31,14 +31,13 @@ namespace SecretSanta.Controllers
         public UserController(IUserService usersService,
             IGroupService groupsService,
             IInvitationService invitationService,
-            IConnectionService connectionsService,
-            ApplicationUserManager userManager)
+            IConnectionService connectionsService)
         {
             this._usersService = usersService;
             this._groupsService = groupsService;
             this._invitationService = invitationService;
             this._connectionsService = connectionsService;
-            this._userManager = userManager;
+     
         }
 
    
@@ -86,7 +85,7 @@ namespace SecretSanta.Controllers
             }
             else
             {
-                return Content(HttpStatusCode.Conflict, "There is user with the same username!");
+                return Content(HttpStatusCode.Conflict,  result.Errors);
             }
 
         }
@@ -229,7 +228,6 @@ namespace SecretSanta.Controllers
             {
                 Date = request.Date,
                 Receiver = user,
-                InvitationId = Guid.NewGuid(),
                 Group = group
             };
 
@@ -260,7 +258,7 @@ namespace SecretSanta.Controllers
                 return Content(HttpStatusCode.Forbidden, "You can delete only your requests.");
             }
 
-            var request = user.PendingInvitations.FirstOrDefault(i => i.InvitationId == Guid.Parse(id));
+            var request = user.PendingInvitations.FirstOrDefault(i => i.InvitationId == int.Parse(id));
             if (request == null)
             {
                 return NotFound();

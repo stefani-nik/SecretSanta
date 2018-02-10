@@ -137,7 +137,7 @@ namespace SecretSanta.Controllers
 
             try
             {
-                var groups = this._groupsService.GetPageOfGroups(username, page)
+                var groups = this._usersService.GetUserGroups(username, page)
                      .Select(g => new { GroupName = g.Name });
 
                 return Ok(groups);
@@ -146,7 +146,6 @@ namespace SecretSanta.Controllers
             {
                 return NotFound();
             }
-
         }
 
         [HttpGet]

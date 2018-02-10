@@ -39,7 +39,7 @@ namespace SecretSanta.Service.Services
             return this._groupRepository.GetGroupByName(groupName);
         }
 
-        public IQueryable<Group> GetPageOfGroups(string username, int page)
+        public IEnumerable<Group> GetPageOfGroups(string username, int page)
         {
             const int recordsOnPage = 10;
             int skip = (page - 1)*recordsOnPage;

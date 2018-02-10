@@ -60,6 +60,11 @@ namespace SecretSanta.Data.Repositories
 
         }
 
+        public IEnumerable<Group> GetPageOfGroups(string username, int recordsOnPage, int skip)
+        {
+            return this.GetUserByUsername(username).JoinedGroups.Skip(skip).Take(recordsOnPage).ToList();
+        }
+
         public bool HasConnectedUsers(string userId, int groupId)
         {
             return true;

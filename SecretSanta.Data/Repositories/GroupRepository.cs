@@ -37,9 +37,16 @@ namespace SecretSanta.Data.Repositories
             return this.GetAll.Include(g => g.Members).FirstOrDefault(g => g.Name == name);
         }
 
-        public IQueryable<Group> GetPageOfGroups(string username,int skip, int take)
+        public IEnumerable<Group> GetPageOfGroups(string username,int skip, int take)
         {
-            return this.GetAll.Where(g => g.Creator.UserName == username).Skip(skip).Take(take);
+            var groups = this.GetAll.ToList();
+            var result = new List<Group>();
+            foreach (var g in groups)
+            {
+                if(g.Members.FirstOrDefault(m => m.UserName == username) != null)
+                    result.Add(g);
+            }
+            return result.OrderBy(g => g.Name).Skip(skip).Take(take);
         }
 
         public ICollection<ApplicationUser> GetMembers(int groupId)

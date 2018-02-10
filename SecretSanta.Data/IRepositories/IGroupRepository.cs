@@ -9,7 +9,7 @@ namespace SecretSanta.Data.IRepositories
     {
         Group GetGroupById(int groupId);
         Group GetGroupByName(string name);
-        IQueryable<Group> GetPageOfGroups(string username, int take, int skip);
+        IEnumerable<Group> GetPageOfGroups(string username, int take, int skip);
         ICollection<ApplicationUser> GetMembers(int groupId);
 
 

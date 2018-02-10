@@ -46,6 +46,13 @@ namespace SecretSanta.Service.Services
             return _userRepository.GetPageOfUsers(recordsOnPage, skip, orderBy, searchPattern);
         }
 
+        public IEnumerable<Group> GetUserGroups(string username, int page)
+        {
+            int recordsOnPage = 10;
+            int skip = (page - 1) * recordsOnPage;
+            return _userRepository.GetPageOfGroups(username, recordsOnPage, skip);
+        }
+
         public bool HasConnectedUsers(string userId, int groupId)
         {
             return _userRepository.HasConnectedUsers(userId, groupId);

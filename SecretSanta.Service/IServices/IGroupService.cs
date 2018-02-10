@@ -9,7 +9,7 @@ namespace SecretSanta.Service.IServices
 
         Group GetGroupById(int groupId);
         Group GetGroupByName(string groupName);
-        IQueryable<Group> GetPageOfGroups(string username, int page);
+        IEnumerable<Group> GetPageOfGroups(string username, int page);
         ICollection<ApplicationUser> GetMembers(int groupId);
 
         void CreateGroup(Group group);

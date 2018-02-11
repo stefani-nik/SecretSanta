@@ -95,6 +95,7 @@ namespace SecretSanta.Service.Services
         {
             var group = this._groupRepository.GetGroupById(groupId);
             group.State = ConnectionsState.Connected;
+            _groupRepository.Update(group);
             _unitOfWork.Commit();
         }
     }

@@ -178,7 +178,7 @@ namespace SecretSanta.Controllers
             }
 
             this._groupService.RemoveUserFromGroup(group.GroupId, user.Id);
-            return Content(HttpStatusCode.NoContent, "Deleted");
+            return this.Ok(new { message = "Member was deleted." });
         }
 
         [HttpPut]
@@ -203,12 +203,12 @@ namespace SecretSanta.Controllers
             }
 
             var members = this._groupService.GetMembers(group.GroupId);
-            if (members.Count == 1 )
+            if (members.Count < 2)
             {
                 return Content(HttpStatusCode.PreconditionFailed, "The process of connection cannot be started because the group has only one member!");
             }
 
-            if (@group.State == ConnectionsState.Connected)
+            if (group.State == ConnectionsState.Connected)
             {
                 return Content(HttpStatusCode.PreconditionFailed, "The process of connection has already been started");
             }

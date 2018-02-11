@@ -15,6 +15,9 @@ namespace SecretSanta.Data.Configuration
             Ignore(u => u.SecurityStamp);
             Ignore(u => u.PhoneNumberConfirmed);
             Ignore(u => u.PhoneNumber);
+            Ignore(u => u.LockoutEnabled);
+            Ignore(u => u.LockoutEndDateUtc);
+          
 
 
             Property(u => u.UserName).IsRequired().HasMaxLength(20);

@@ -20,8 +20,7 @@ namespace SecretSanta
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
-                AllowOnlyAlphanumericUserNames = true,
-                RequireUniqueEmail = false
+                AllowOnlyAlphanumericUserNames = true
             };
 
             // Configure validation logic for passwords

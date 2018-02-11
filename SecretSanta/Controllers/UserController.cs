@@ -129,10 +129,14 @@ namespace SecretSanta.Controllers
         public IHttpActionResult GetUserGroups(string username, int page)
         {
 
-            // TODO : You can only get your own groups
             if (string.IsNullOrEmpty(username))
             {
                 return BadRequest();
+            }
+
+            if (_currentUserUsername != username)
+            {
+                return Content(HttpStatusCode.Forbidden, "You can only get your own groups.");
             }
 
             try
@@ -153,10 +157,15 @@ namespace SecretSanta.Controllers
         public IHttpActionResult GetUserConnectionInGroup([FromUri] string username, [FromUri] string groupName)
         {
 
-            // Todo : you can only get your own connection
+     
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(groupName))
             {
                 return BadRequest();
+            }
+
+            if (_currentUserUsername != username)
+            {
+                return Content(HttpStatusCode.Forbidden, "You can only get your own connections.");
             }
 
             var connection = this._connectionsService.GetConnectionInGroup(username, groupName);

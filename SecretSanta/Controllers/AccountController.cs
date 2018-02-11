@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.Results;
 using System.Web.Script.Serialization;
-using System.Web.UI.WebControls;
 using SecretSanta.Service.IServices;
 using Microsoft.AspNet.Identity;
 using SecretSanta.Dtos;

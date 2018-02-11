@@ -80,6 +80,7 @@ namespace SecretSanta.Controllers
                     Name = groupModel.Name,
                     Creator = currentUser
                 };
+
                 group.Members.Add(currentUser);
            
                 this._groupService.CreateGroup(group);

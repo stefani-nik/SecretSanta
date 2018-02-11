@@ -15,7 +15,7 @@ using Microsoft.Owin.Testing;
 
 namespace SecretSanta.Controllers
 {
-    [RoutePrefix("api/login")]
+    [RoutePrefix("api")]
     public class AccountController : ApiController
     {
         private readonly IAccountService _accountsService;
@@ -34,7 +34,7 @@ namespace SecretSanta.Controllers
         }
 
         [HttpPost]
-        [Route("")]
+        [Route("login")]
         [AllowAnonymous]
         public async Task<IHttpActionResult> Login(LoginDto model)
         {
@@ -86,7 +86,7 @@ namespace SecretSanta.Controllers
         }
 
         [HttpDelete]
-        [Route("")]
+        [Route("logout")]
         public IHttpActionResult Logout()
         {
             var authenticationManager = HttpContext.Current.GetOwinContext().Authentication;
@@ -105,7 +105,7 @@ namespace SecretSanta.Controllers
                 return this.BadRequest();
             }
 
-            return this.Content(HttpStatusCode.NoContent, "Deleted");
+            return this.Ok(new {message =  "Logout successful"});
         }
 
 

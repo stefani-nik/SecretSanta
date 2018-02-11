@@ -9,6 +9,14 @@ namespace SecretSanta.Data.Configuration
         public UserConfig()
         {
             ToTable("Users");
+            Ignore(u => u.AccessFailedCount);
+            Ignore(u => u.EmailConfirmed);
+            Ignore(u => u.TwoFactorEnabled);
+            Ignore(u => u.SecurityStamp);
+            Ignore(u => u.PhoneNumberConfirmed);
+            Ignore(u => u.PhoneNumber);
+
+
             Property(u => u.UserName).IsRequired().HasMaxLength(20);
             Property(u => u.DisplayName).IsRequired().HasMaxLength(30);
 

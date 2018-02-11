@@ -72,17 +72,24 @@ namespace SecretSanta.Controllers
                 DisplayName = model.DisplayName
             };
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-
-            if (result.Succeeded)
+            try
             {
-                var resultModel = new UserProfileDto(user.UserName, user.DisplayName);
+                IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    var resultModel = new UserProfileDto(user.UserName, user.DisplayName);
 
-                return Content(HttpStatusCode.Created, resultModel);
+                    return Content(HttpStatusCode.Created, resultModel);
+                }
+            }
+            catch
+            {
+                return Content(HttpStatusCode.Conflict, "Username must be unique.");
             }
 
-            return Content(HttpStatusCode.Conflict,  "Username must be unique.");
-            
+
+            return Content(HttpStatusCode.Conflict, "Unable to register user.");
+
 
         }
 

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using SecretSanta.Dtos;
@@ -39,7 +37,6 @@ namespace SecretSanta.Controllers
      
         }
 
-   
 
         public ApplicationUserManager UserManager
         {
@@ -76,16 +73,16 @@ namespace SecretSanta.Controllers
             };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
             if (result.Succeeded)
             {
                 var resultModel = new UserProfileDto(user.UserName, user.DisplayName);
 
                 return Content(HttpStatusCode.Created, resultModel);
             }
-            else
-            {
-                return Content(HttpStatusCode.Conflict,  result.Errors);
-            }
+
+            return Content(HttpStatusCode.Conflict,  result.Errors);
+            
 
         }
 
@@ -99,6 +96,7 @@ namespace SecretSanta.Controllers
             }
 
             var user = this._usersService.GetUserByUsername(username);
+
             if (user == null)
             {
                 return NotFound();
@@ -158,9 +156,10 @@ namespace SecretSanta.Controllers
             }
 
             var connection = this._connectionsService.GetConnectionInGroup(username, groupName);
+
             if (connection == null)
             {
-                return NotFound();
+                return Content(HttpStatusCode.Forbidden, "The connection process has not been started yet.");
             }
 
             var result = new UserProfileDto(connection.Receiver.UserName, connection.Receiver.DisplayName);
@@ -170,7 +169,7 @@ namespace SecretSanta.Controllers
 
         [HttpGet]
         [Route("{username}/invitations")]
-        public IHttpActionResult GetAllRequests([FromUri] string username, [FromUri]GetUsersCriteria criteria)
+        public IHttpActionResult GetUsersInvitations([FromUri] string username, [FromUri]GetUsersCriteria criteria)
         {
             if (string.IsNullOrEmpty(username) ||
                 (criteria.Order.ToLower() != "asc" && criteria.Order.ToLower() != "desc"))
@@ -179,6 +178,7 @@ namespace SecretSanta.Controllers
             }
 
             var user = this._usersService.GetUserByUsername(username);
+
             if (user == null)
             {
                 return NotFound();
@@ -189,25 +189,24 @@ namespace SecretSanta.Controllers
                 return Content(HttpStatusCode.Forbidden, "You can see only your requests.");
             }
 
-            var requests = this._invitationService.GetPageOfPendingInvitations(this._currentUserId,criteria.Page, criteria.Order)
+            var invitations = this._invitationService.GetPageOfPendingInvitations(this._currentUserId,criteria.Page, criteria.Order)
                 .Select(r => new InvitationDto(r.InvitationId, r.Group.Name, r.Group.Creator.DisplayName, r.Date));
 
-            return Ok(requests);
+            return Ok(invitations);
         }
 
         [HttpPost]
         [Route("{username}/invitations")]
-        public IHttpActionResult SendRequest([FromUri] string username, [FromBody]InvitationDto request)
+        public IHttpActionResult SendInvitation([FromUri] string username, [FromBody]InvitationDto invitation)
         {
 
-            // TODO: The owner cannot send requests to himself
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(request.GroupName))
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(invitation.GroupName))
             {
                 return BadRequest();
             }
 
             var user = this._usersService.GetUserByUsername(username);
-            var group = this._groupsService.GetGroupByName(request.GroupName);
+            var group = this._groupsService.GetGroupByName(invitation.GroupName);
             if (user == null || group.Name == null)
             {
                 return NotFound();
@@ -215,32 +214,38 @@ namespace SecretSanta.Controllers
 
             if (this._currentUserUsername != group.Creator.UserName)
             {
-                return Content(HttpStatusCode.Forbidden, "You cannot send requests for this group.");
+                return Content(HttpStatusCode.Forbidden, "You cannot send invitations for this group.");
             }
 
-            var hasRequest = this._invitationService.IsUserInvited(request.GroupName, user.Id);
+            if (this._currentUserUsername == username)
+            {
+                return Content(HttpStatusCode.Forbidden, "You cannot send invitation to yourself.");
+            }
+
+            var hasRequest = this._invitationService.IsUserInvited(invitation.GroupName, user.Id);
+
             if (hasRequest)
             {
                 return Content(HttpStatusCode.Conflict, "You have already sent request to this user.");
             }
 
-            var requestToSend = new Invitation
+            var invitationToSend = new Invitation
             {
-                Date = request.Date,
+                Date = invitation.Date,
                 Receiver = user,
                 Group = group
             };
 
-            this._invitationService.CreateInvittation(requestToSend);
-            var result = new InvitationDto(requestToSend.InvitationId, requestToSend.Group.Name, group.Creator.UserName,
-                requestToSend.Date);
+            this._invitationService.CreateInvittation(invitationToSend);
+            var result = new InvitationDto(invitationToSend.InvitationId, invitationToSend.Group.Name, group.Creator.UserName,
+                invitationToSend.Date);
 
             return Content(HttpStatusCode.Created, result);
         }
 
         [HttpDelete]
         [Route("{username}/invitations/{id}")]
-        public IHttpActionResult DeleteRequest([FromUri] string username, [FromUri] string id)
+        public IHttpActionResult DeleteInvitation([FromUri] string username, [FromUri] string id)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(id))
             {
@@ -255,17 +260,18 @@ namespace SecretSanta.Controllers
 
             if (user.UserName != this._currentUserUsername)
             {
-                return Content(HttpStatusCode.Forbidden, "You can delete only your requests.");
+                return Content(HttpStatusCode.Forbidden, "You can decline only your invitations.");
             }
 
-            var request = user.PendingInvitations.FirstOrDefault(i => i.InvitationId == int.Parse(id));
-            if (request == null)
+            var invitation = user.PendingInvitations.FirstOrDefault(i => i.InvitationId == int.Parse(id));
+
+            if (invitation == null)
             {
                 return NotFound();
             }
 
-            this._invitationService.CancelInvitation(request.Group.GroupId, request.Receiver.Id);
-            return Content(HttpStatusCode.NoContent, "The request was deleted!");
+            this._invitationService.CancelInvitation(invitation.Group.GroupId, invitation.Receiver.Id);
+            return Content(HttpStatusCode.NoContent, "The invitation was declined!");
         }
     }
 }

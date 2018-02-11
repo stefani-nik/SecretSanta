@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SecretSanta.Data.IInfrastructure;
 using SecretSanta.Data.Infrastructure;
 using SecretSanta.Data.IRepositories;
 using SecretSanta.Models;
@@ -14,18 +10,6 @@ namespace SecretSanta.Data.Repositories
     public class InvitationRepository : RepositoryBase<Invitation>, IInvitationRepository
     {
         public InvitationRepository(SecretSantaContext dbContext) : base(dbContext) { }
-
-        //private readonly IRepository<Invitation> repositoryBase;
-
-        //public InvitationRepository(IRepository<Invitation> _repository)
-        //{
-        //    if (_repository == null)
-        //    {
-        //        throw new ArgumentException(nameof(_repository));
-
-        //    }
-        //    this.repositoryBase = _repository;
-        //}
 
         public IEnumerable<Invitation> GetPageOfPendingInvitations(string userId, int take, int skip, string orderBy)
         {
@@ -53,9 +37,14 @@ namespace SecretSanta.Data.Repositories
             return invitations;
         }
 
-        public void ChangeInvitationState(Invitation invitation)
+        public void AcceptInvitation(Invitation invitation)
         {
             invitation.State = InvitationState.Accepted;
+        }
+
+        public void DeclineInvitation(Invitation invitation)
+        {
+            invitation.State = InvitationState.Denied;
         }
     }
 }

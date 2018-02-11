@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace SecretSanta.Models
 {
@@ -25,7 +24,6 @@ namespace SecretSanta.Models
 
         public Invitation()
         {
-           
             this.State = InvitationState.Pending;
         }
 

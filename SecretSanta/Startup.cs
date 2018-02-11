@@ -1,11 +1,7 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Web.Http;
 using Autofac;
-using Autofac.Features.ResolveAnything;
 using Autofac.Integration.WebApi;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
 using SecretSanta.Controllers;
@@ -52,8 +48,6 @@ namespace SecretSanta
             builder.RegisterType<InvitationRepository>().As<IInvitationRepository>().InstancePerRequest();
             builder.RegisterType<ConnectionRepository>().As<IConnectionRepository>().InstancePerRequest();
             builder.RegisterType<AccountRepository>().As<IAccountRepository>().InstancePerRequest();
-
-
 
 
             var config = GlobalConfiguration.Configuration;

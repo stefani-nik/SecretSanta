@@ -76,6 +76,7 @@ namespace SecretSanta.Controllers
             try
             {
                 var group = new Group(groupModel.Name, currentUser);
+                group.Members.Add(currentUser);
            
                 this._groupService.CreateGroup(group);
           

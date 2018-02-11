@@ -12,18 +12,6 @@ namespace SecretSanta.Data.Repositories
     {
         public ApplicationUserRepository(SecretSantaContext dbContext) : base(dbContext) {}
 
-        //private readonly IRepository<ApplicationUser> _repositoryBase;
-
-        //public ApplicationUserRepository(IRepository<ApplicationUser> repositoryBase)
-        //{
-        //    if (repositoryBase == null)
-        //    {
-        //        throw new ArgumentException(nameof(repositoryBase));
-        //    }
-
-        //    this._repositoryBase = repositoryBase;
-        //}
-
         public ApplicationUser GetUserByUsername(string username)
         {
             return this.GetAll.FirstOrDefault(u => u.UserName == username);
@@ -40,15 +28,16 @@ namespace SecretSanta.Data.Repositories
                     .Where(u => u.DisplayName.Contains(searchPattern) || u.UserName.Contains(searchPattern)).ToList();
             }
 
-            if (orderBy == "asc")
+            switch (orderBy)
             {
-                result = result
-                    .OrderBy(u => u.DisplayName).ToList();
-            }
-            else if(orderBy == "desc")
-            {
-                result = result
-                    .OrderByDescending(u => u.DisplayName).ToList();
+                case "asc":
+                    result = result
+                        .OrderBy(u => u.DisplayName).ToList();
+                    break;
+                case "desc":
+                    result = result
+                        .OrderByDescending(u => u.DisplayName).ToList();
+                    break;
             }
 
             result = result

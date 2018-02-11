@@ -12,7 +12,6 @@ namespace SecretSanta.Data.Configuration
             Ignore(u => u.AccessFailedCount);
             Ignore(u => u.EmailConfirmed);
             Ignore(u => u.TwoFactorEnabled);
-            Ignore(u => u.SecurityStamp);
             Ignore(u => u.PhoneNumberConfirmed);
             Ignore(u => u.PhoneNumber);
             Ignore(u => u.LockoutEnabled);

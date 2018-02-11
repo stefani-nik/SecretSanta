@@ -12,7 +12,7 @@ using Microsoft.Owin.Testing;
 
 namespace SecretSanta.Controllers
 {
-    [RoutePrefix("api")]
+    [RoutePrefix("api/login")]
     public class AccountController : ApiController
     {
         private readonly IAccountService _accountsService;
@@ -31,7 +31,7 @@ namespace SecretSanta.Controllers
         }
 
         [HttpPost]
-        [Route("login")]
+        [Route("")]
         [AllowAnonymous]
         public async Task<IHttpActionResult> Login(LoginDto model)
         {
@@ -83,7 +83,7 @@ namespace SecretSanta.Controllers
         }
 
         [HttpDelete]
-        [Route("logout")]
+        [Route("")]
         public IHttpActionResult Logout()
         {
             var authenticationManager = HttpContext.Current.GetOwinContext().Authentication;

@@ -86,7 +86,7 @@ namespace SecretSanta.Controllers
             }
             catch (Exception)
             {
-                return Content(HttpStatusCode.Conflict, "Unable to create group.");
+                return Content(HttpStatusCode.Conflict, "Groupname should be unique.");
             }
         }
 

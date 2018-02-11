@@ -99,7 +99,7 @@ namespace SecretSanta.Controllers
 
             if (user == null)
             {
-                return NotFound();
+                return Content(HttpStatusCode.NotFound, "There is no user with that username.");
             }
 
             var model = new UserProfileDto(user.UserName, user.DisplayName);
@@ -128,6 +128,8 @@ namespace SecretSanta.Controllers
         [Route("{username}/groups")]
         public IHttpActionResult GetUserGroups(string username, int page)
         {
+
+            // TODO : You can only get your own groups
             if (string.IsNullOrEmpty(username))
             {
                 return BadRequest();
@@ -150,6 +152,8 @@ namespace SecretSanta.Controllers
         [Route("{username}/groups/{groupName}/connections")]
         public IHttpActionResult GetUserConnectionInGroup([FromUri] string username, [FromUri] string groupName)
         {
+
+            // Todo : you can only get your own connection
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(groupName))
             {
                 return BadRequest();
@@ -207,9 +211,15 @@ namespace SecretSanta.Controllers
 
             var user = this._usersService.GetUserByUsername(username);
             var group = this._groupsService.GetGroupByName(invitation.GroupName);
-            if (user == null || group.Name == null)
+
+            if (user == null)
             {
-                return NotFound();
+                return Content(HttpStatusCode.NotFound, "There is no such user in the database");
+            }
+
+            if (group == null)
+            {
+                return Content(HttpStatusCode.NotFound, "There is no such group in the database");
             }
 
             if (this._currentUserUsername != group.Creator.UserName)

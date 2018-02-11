@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SecretSanta.Data.IInfrastructure;
 using SecretSanta.Data.IRepositories;
 using SecretSanta.Models;

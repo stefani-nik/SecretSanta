@@ -53,8 +53,13 @@ namespace SecretSanta.Service.Services
 
         public void CreateGroup(Group group)
         {
-           
-           _groupRepository.Add(group);
+            var checkIfExists = this._groupRepository.GetGroupByName(group.Name);
+
+            if (checkIfExists != null)
+            {
+                throw new ArgumentException("Group name should be unique");
+            }
+            _groupRepository.Add(group);
             this._unitOfWork.Commit();
             
         }
@@ -79,7 +84,7 @@ namespace SecretSanta.Service.Services
 
             if (group == null || user == null)
             {
-                return;
+               throw new ArgumentException("Invalid user or group.");
             }
 
             group.Members.Remove(user);

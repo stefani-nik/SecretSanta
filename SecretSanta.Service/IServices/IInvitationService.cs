@@ -14,7 +14,7 @@ namespace SecretSanta.Service.IServices
         bool IsUserInvited(string groupName, string userId);
 
         void CancelInvitation(int groupId, string userId);
-
-        //   #TODO: Check if implementation of Accept Invitation is needed
+        void AcceptInvitation(string groupName, string userId);
+    
     }
 }

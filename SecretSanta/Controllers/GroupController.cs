@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using SecretSanta.Dtos;
 using SecretSanta.Models;
 using SecretSanta.Service.IServices;
@@ -10,7 +9,6 @@ using SecretSanta.Service.IServices;
 namespace SecretSanta.Controllers
 {
     [RoutePrefix("api/groups")]
-    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class GroupController : ApiController
     {
         private readonly IGroupService _groupService;
@@ -18,8 +16,6 @@ namespace SecretSanta.Controllers
         private readonly IUserService _userService;
         private readonly IConnectionService _connectionService;
         private string _currentUserId;
-
-        public GroupController() { }
 
         public GroupController(IGroupService groupService,
             IUserService userService,
@@ -47,21 +43,28 @@ namespace SecretSanta.Controllers
             }
 
             var group = this._groupService.GetGroupByName(groupName);
-            var model = new GroupDto(group.Name, group.Creator.DisplayName);
+
+            if (group == null)
+            {
+                return NotFound();
+            }
+
+            var result = new GroupDto(group.Name, group.Creator.DisplayName);
+
             if (group.Creator.Id == this._currentUserId)
             {
                 var members = group.Members
                     .Select(u => new UserProfileDto(u.UserName, u.DisplayName))
                     .ToList();
-                model.Members = members;
+                result.Members = members;
             }
 
-            return Ok(model);
+            return Ok(result);
         }
 
         [HttpPost]
         [Route("")]
-        public IHttpActionResult CreateGroup([FromBody] CreateGroupDto groupModel)
+        public IHttpActionResult CreateGroup([FromBody]CreateGroupDto groupModel)
         {
             if (groupModel == null || !ModelState.IsValid)
             {
@@ -76,14 +79,13 @@ namespace SecretSanta.Controllers
            
                 this._groupService.CreateGroup(group);
           
-
                 var model = new GroupDto(group.Name, group.Creator.DisplayName);
 
                 return Content(HttpStatusCode.Created, model);
             }
             catch (Exception)
             {
-                return Content(HttpStatusCode.Conflict, "The name should be unique!");
+                return Content(HttpStatusCode.Conflict, "Unable to create group.");
             }
         }
 
@@ -105,21 +107,20 @@ namespace SecretSanta.Controllers
 
             if (group.Creator.Id != this._currentUserId)
             {
-                return Content(HttpStatusCode.Forbidden, "Only the owner of the group can see participants!");
+                return Content(HttpStatusCode.Forbidden, "Only the owner of the group can see the members!");
             }
 
-            var participants = group.Members
+            var members = group.Members
                 .Select(p => new UserProfileDto(p.UserName, p.DisplayName));
 
-            return Ok(participants);
+            return Ok(members);
         }
 
         [HttpPost]
         [Route("{groupName}/members")]
-        public IHttpActionResult AddMember([FromUri] string groupName, [FromBody] UserProfileDto userModel)
+        public IHttpActionResult AddMember([FromUri]string groupName, [FromBody]UserProfileDto userModel)
         {
 
-            // TODO: Change invitation state 
             if (string.IsNullOrEmpty(groupName) || !ModelState.IsValid)
             {
                 return BadRequest();
@@ -138,8 +139,9 @@ namespace SecretSanta.Controllers
             }
 
             this._groupService.AddMember(groupName, user);
+            this._invitationService.AcceptInvitation(groupName, user.Id);
 
-            return Content(HttpStatusCode.Created, "The user was added!");
+            return Content(HttpStatusCode.Created, "You are now member of this group.");
         }
 
         [HttpDelete]
@@ -165,7 +167,7 @@ namespace SecretSanta.Controllers
 
             if (group.Creator.Id != this._currentUserId)
             {
-                return Content(HttpStatusCode.Forbidden, "Only the owner of group can remove participants!");
+                return Content(HttpStatusCode.Forbidden, "Only the owner of group can remove members!");
             }
 
             if (@group.State == ConnectionsState.Connected)
@@ -188,6 +190,7 @@ namespace SecretSanta.Controllers
             }
 
             var group = this._groupService.GetGroupByName(groupName);
+
             if (group == null)
             {
                 return NotFound();
@@ -199,9 +202,14 @@ namespace SecretSanta.Controllers
             }
 
             var members = this._groupService.GetMembers(group.GroupId);
-            if (members.Count() == 1 || @group.State == ConnectionsState.Connected)
+            if (members.Count == 1 )
             {
-                return Content(HttpStatusCode.PreconditionFailed, "The process of connection cannot be started!");
+                return Content(HttpStatusCode.PreconditionFailed, "The process of connection cannot be started because the group has only one member!");
+            }
+
+            if (@group.State == ConnectionsState.Connected)
+            {
+                return Content(HttpStatusCode.PreconditionFailed, "The process of connection has already been started");
             }
 
             this._connectionService.CreateConnections(group.GroupId);

@@ -52,7 +52,7 @@ namespace SecretSanta.Service.Services
         {
             var memebers = this._groupRepository.GetMembers(groupId);
             var group = this._groupRepository.GetGroupById(groupId);
-            var connections = this.GenerateConnections(memebers);
+            var connections = GenerateConnections(memebers);
 
             foreach (var pair in connections)
             {
@@ -66,9 +66,9 @@ namespace SecretSanta.Service.Services
             }
         }
 
-        private IDictionary<int, int> GenerateConnections(ICollection<ApplicationUser> members)
+        private static IDictionary<int, int> GenerateConnections(ICollection<ApplicationUser> members)
         {
-            var count = members.Count();
+            var count = members.Count;
 
             Dictionary<int, int> pairs = new Dictionary<int, int>();
             bool[] used = new bool[count];

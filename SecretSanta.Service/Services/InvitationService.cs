@@ -54,6 +54,20 @@ namespace SecretSanta.Service.Services
             return invitation != null;
         }
 
+        public void AcceptInvitation(string groupName, string userId)
+        {
+            var invitation = this._invitationRepository.GetAll
+                 .FirstOrDefault(i => i.Group.Name == groupName && i.Receiver.Id == userId);
+
+            if (invitation == null)
+            {
+                return;
+            }
+            this._invitationRepository.ChangeInvitationState(invitation);
+            _unitOfWork.Commit();
+
+        }
+
         public void CancelInvitation(int groupId, string userId)
         {
             var invitation = this._invitationRepository.GetAll

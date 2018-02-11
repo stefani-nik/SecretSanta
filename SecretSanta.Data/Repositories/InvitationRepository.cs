@@ -53,5 +53,9 @@ namespace SecretSanta.Data.Repositories
             return invitations;
         }
 
+        public void ChangeInvitationState(Invitation invitation)
+        {
+            invitation.State = InvitationState.Accepted;
+        }
     }
 }

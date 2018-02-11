@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using SecretSanta.Data.IInfrastructure;
 using SecretSanta.Models;
 
@@ -11,7 +10,6 @@ namespace SecretSanta.Data.IRepositories
         Group GetGroupByName(string name);
         IEnumerable<Group> GetPageOfGroups(string username, int take, int skip);
         ICollection<ApplicationUser> GetMembers(int groupId);
-
 
     }
 }

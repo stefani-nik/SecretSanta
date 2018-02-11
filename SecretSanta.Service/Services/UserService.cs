@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using SecretSanta.Data.IInfrastructure;
 using SecretSanta.Data.IRepositories;
 using SecretSanta.Models;
@@ -51,11 +50,6 @@ namespace SecretSanta.Service.Services
             int recordsOnPage = 10;
             int skip = (page - 1) * recordsOnPage;
             return _userRepository.GetPageOfGroups(username, recordsOnPage, skip);
-        }
-
-        public bool HasConnectedUsers(string userId, int groupId)
-        {
-            return _userRepository.HasConnectedUsers(userId, groupId);
         }
        
         public void SaveUser()

@@ -59,7 +59,7 @@ namespace SecretSanta.Service.Services
 
             if (invitation == null)
             {
-                return;
+                throw new ArgumentException("There is no such invitation");
             }
             this._invitationRepository.AcceptInvitation(invitation);
             _unitOfWork.Commit();
@@ -73,7 +73,7 @@ namespace SecretSanta.Service.Services
 
             if (invitation == null)
             {
-                return;
+                throw new ArgumentException("There is no such invitation");
             }
 
             this._invitationRepository.DeclineInvitation(invitation);

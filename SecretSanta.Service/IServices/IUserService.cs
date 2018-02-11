@@ -11,7 +11,6 @@ namespace SecretSanta.Service.IServices
         ApplicationUser GetUserById(string userId);
         IEnumerable<ApplicationUser> GetPageOfUsers(int page, string orderBy, string searchPattern);
         IEnumerable<Group> GetUserGroups(string username, int page);
-        bool HasConnectedUsers(string userId, int groupId);
 
     }
 }

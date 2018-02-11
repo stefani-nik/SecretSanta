@@ -54,9 +54,5 @@ namespace SecretSanta.Data.Repositories
             return this.GetUserByUsername(username).JoinedGroups.Skip(skip).Take(recordsOnPage).ToList();
         }
 
-        public bool HasConnectedUsers(string userId, int groupId)
-        {
-            return true;
-        }
     }
 }

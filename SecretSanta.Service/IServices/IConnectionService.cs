@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using SecretSanta.Models;
+﻿using SecretSanta.Models;
 
 namespace SecretSanta.Service.IServices
 {

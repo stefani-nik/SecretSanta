@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using SecretSanta.Models;
-using System.Linq;
 
 
 namespace SecretSanta.Service.IServices

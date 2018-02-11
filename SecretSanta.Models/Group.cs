@@ -19,7 +19,7 @@ namespace SecretSanta.Models
 
         public virtual ICollection<Invitation> Invitations { get; set; }
 
-        public ConnectionsState State;
+        public ConnectionsState State { get; set; }
 
         public Group()
         {
@@ -28,13 +28,5 @@ namespace SecretSanta.Models
             this.State = ConnectionsState.NotConnected;
         }
 
-        public Group(string name, ApplicationUser creator)
-        {
-            this.Name = name;
-            this.Creator = creator;
-            this.Members = new HashSet<ApplicationUser>();
-            this.Invitations = new HashSet<Invitation>();
-            this.State = ConnectionsState.NotConnected;
-        }
     }
 }

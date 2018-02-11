@@ -81,7 +81,7 @@ namespace SecretSanta.Controllers
                 return Content(HttpStatusCode.Created, resultModel);
             }
 
-            return Content(HttpStatusCode.Conflict,  result.Errors);
+            return Content(HttpStatusCode.Conflict,  "Username must be unique.");
             
 
         }
